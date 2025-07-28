@@ -1,33 +1,12 @@
 pipeline {
   agent any
   stages {
-    stage ('checkout'){
-      steps{
-        sh 'docker version'
-        sh 'docker run -d --name pyimage python3:lts'
-      }
-    }
-    stage('Build') {
-      steps {
-        sh 'docker-compose build'
-        sh 'docker-compose up -d'
-      }
-    }
-    stage('Test') {
-      steps {
-        sh 'docker-compose exec app python -m pytest || true'
-      }
-    }
     stage('Deploy') {
       steps {
         echo 'Deploying...'
+        sh 'python3 app.py'
         // e.g. push image or run deploy scripts
       }
-    }
-  }
-  post {
-    always {
-      sh 'docker-compose down'
     }
   }
 }
