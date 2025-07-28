@@ -1,6 +1,12 @@
 pipeline {
   agent any
   stages {
+    stage ('checkout'){
+      steps{
+        sh 'docker version'
+        sh 'docker run -d --name pyimage python3:lts'
+      }
+    }
     stage('Build') {
       steps {
         sh 'docker-compose build'
